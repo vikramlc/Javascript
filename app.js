@@ -12,3 +12,12 @@ console.log(listItems);
 
 const arrayListItems = Array.from(listItems);
 console.log(arrayListItems);
+
+const testArray1 = ['ANWAR KHAN', 'NARENDER  DHAWAN'];
+
+const value11 = testArray1.find((name) => {
+    const splits = name.split(/\s+/);
+    return splits[0].trim()==='NARENDER' && splits[1].trim()==='DHAWAN';
+});
+
+console.log(value11);
