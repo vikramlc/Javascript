@@ -31,6 +31,7 @@ const addMovieHandler = () => {
     extraName.trim() === '' ||
     extraValue.trim() === ''
   ) {
+    console.log('add movie handler.');
     return;
   }
 
