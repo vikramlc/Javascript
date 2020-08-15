@@ -59,6 +59,10 @@ section > h2 {
   margin: 0;
 }
 
+.droppable {
+  background: #ffe0ec;
+}
+
 button {
   font: inherit;
   background: #ff0062;
