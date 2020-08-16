@@ -1,66 +1,18 @@
-// Pure functions
-function addPureFun(num1, num2) {
-  return num1 + num2;
-}
+function productDescription(strings, productName, productPrice) {
+  console.log(strings);
+  console.log(productName);
+  console.log(productPrice);
+  let priceCategory = 'cheap';
 
-console.log(addPureFun(1,2));
-console.log(addPureFun(12,22));
-
-// Impure functions
-function addImpureFun(num1) {
-  const num2 = 5*Math.random();
-  return num1 + num2;
-}
-
-console.log(addImpureFun(10));
-console.log(addImpureFun(42));
-
-let previousResult = 0;
-
-function addMoreNumbers(num1, num2) {
-  const sum = num1 + num2;
-  previousResult = sum;
-  return sum;
-}
-
-console.log(addMoreNumbers(1,2));
-
-// Factory functions
-function createTaxCalculator(tax) {
-  function calculateTax(amount) {
-    return amount * tax;
+  if (productPrice > 20) {
+    priceCategory = 'fair';
   }
 
-  return calculateTax;
+  return `${strings[0]}${productName}${strings[1]}${productPrice}${strings[2]}`;
 }
 
-const calculateVatAmount = createTaxCalculator(0.19);
-const calculateIncomeTaxAmount = createTaxCalculator(0.25);
+const productName = 'Javascript';
+const productPrice = 223.21;
 
-console.log(calculateVatAmount(100));
-console.log(calculateIncomeTaxAmount(200));
-
-function sayHiBye(firstName, lastName) {
-
-  // helper nested function to use below
-  function getFullName() {
-    return firstName + " " + lastName;
-  }
-
-  alert( "Hello, " + getFullName() );
-  alert( "Bye, " + getFullName() );
-
-}
-
-// sayHiBye('Vikram', 'Chawan');
-
-// Closures
-let username = 'Max';
-
-function greetUser() {
-  // let name = 'Anna';
-  console.log('Hi ' + name);
-}
-
-name = 'Manuel';
-greetUser();
+const productOutput = productDescription`This product (${productName}) is ${productPrice}.`;
+console.log(productOutput);
