@@ -39,3 +39,28 @@ const calculateIncomeTaxAmount = createTaxCalculator(0.25);
 
 console.log(calculateVatAmount(100));
 console.log(calculateIncomeTaxAmount(200));
+
+function sayHiBye(firstName, lastName) {
+
+  // helper nested function to use below
+  function getFullName() {
+    return firstName + " " + lastName;
+  }
+
+  alert( "Hello, " + getFullName() );
+  alert( "Bye, " + getFullName() );
+
+}
+
+// sayHiBye('Vikram', 'Chawan');
+
+// Closures
+let username = 'Max';
+
+function greetUser() {
+  // let name = 'Anna';
+  console.log('Hi ' + name);
+}
+
+name = 'Manuel';
+greetUser();
