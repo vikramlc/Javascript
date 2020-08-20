@@ -1,18 +1,42 @@
-function productDescription(strings, productName, productPrice) {
-  console.log(strings);
-  console.log(productName);
-  console.log(productPrice);
-  let priceCategory = 'cheap';
+const button = document.querySelector('#click');
 
-  if (productPrice > 20) {
-    priceCategory = 'fair';
-  }
+const getPosition = (opts) => {
+  const promise = new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(success => {
+      resolve(success);
+    }, error => {
 
-  return `${strings[0]}${productName}${strings[1]}${productPrice}${strings[2]}`;
+    }, opts);
+  });
+
+  return promise;
 }
 
-const productName = 'Javascript';
-const productPrice = 223.21;
+const setTimer = duration => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done');
+    }, duration);
+  });
 
-const productOutput = productDescription`This product (${productName}) is ${productPrice}.`;
-console.log(productOutput);
+  return promise;
+};
+
+function trackUserHandler() {
+  navigator.geolocation.getCurrentPosition(
+    positionData => {
+      setTimer(2000).then(data => {
+        console.log(data, positionData);
+      });
+    },
+    error => {
+      console.log(error);
+    }
+  );
+  setTimer(1000).then(() => {
+    console.log('Timer done!');
+  });
+  console.log('Getting position');
+}
+
+button.addEventListener('click', trackUserHandler);
