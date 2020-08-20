@@ -40,6 +40,18 @@ async function trackUserHandler() {
   console.log('Getting position...');
 }
 
+// Promise.race([getPosition(), setTimer(1000)]).then(promiseData => {
+//   console.log(promiseData);
+// });
+
+// Promise.all([getPosition(), setTimer(1000)]).then(promiseData => {
+//   console.log(promiseData);
+// });
+
+Promise.allSettled([getPosition(), setTimer(1000)]).then(promiseData => {
+  console.log(promiseData);
+});
+
 // async function trackUserHandler() {
 //   const posData = await getPosition();
 //   const timerData = await setTimer(2000);
