@@ -1,104 +1,47 @@
-const button = document.querySelector('#click');
+const listElement = document.querySelector('.posts');
+const postTemplate = document.getElementById('single-post');
 
-const getPosition = (opts) => {
+function sendHttpRequest(method, url) {
   const promise = new Promise((resolve, reject) => {
-    navigator.geolocation.getCurrentPosition(success => {
-      resolve(success);
-    }, error => {
-
-    }, opts);
+    const xhr = new XMLHttpRequest();
+    // xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+    xhr.open(method, url);
+    
+    xhr.responseType = 'json';
+    
+    xhr.onload = function() {
+      resolve(xhr.response);
+      // const listOfPosts = JSON.parse(xhr.response);
+      
+    };
+    
+    xhr.send();
   });
 
   return promise;
 }
 
-const setTimer = duration => {
-  const promise = new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve('Done');
-    }, duration);
-  });
-
-  return promise;
-};
-
-async function trackUserHandler() {
-  let posData;
-  let timerData;
-
-  try {
-    posData = await getPosition();
-    timerData = await setTimer(2000);
-  } catch(error) {
-    console.log(error);
+async function fetchPosts() {
+  const responseData = await sendHttpRequest('GET', 'https://jsonplaceholder.typicode.com/posts');
+  const listOfPosts = responseData;
+  console.log('data', responseData);
+  for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    listElement.append(postEl);
   }
-  console.log(timerData, posData);
-
-  setTimer(1000).then(() => {
-    console.log('Timer done!');
-  });
-  console.log('Getting position...');
+  // sendHttpRequest('GET', 'https://jsonplaceholder.typicode.com/posts')
+  //   .then(responseData => {
+  //     const listOfPosts = responseData;
+  //     console.log('data', responseData);
+  //     for (const post of listOfPosts) {
+  //       const postEl = document.importNode(postTemplate.content, true);
+  //       postEl.querySelector('h2').textContent = post.title.toUpperCase();
+  //       postEl.querySelector('p').textContent = post.body;
+  //       listElement.append(postEl);
+  //     }
+  //   });
 }
 
-// Promise.race([getPosition(), setTimer(1000)]).then(promiseData => {
-//   console.log(promiseData);
-// });
-
-// Promise.all([getPosition(), setTimer(1000)]).then(promiseData => {
-//   console.log(promiseData);
-// });
-
-Promise.allSettled([getPosition(), setTimer(1000)]).then(promiseData => {
-  console.log(promiseData);
-});
-
-// async function trackUserHandler() {
-//   const posData = await getPosition();
-//   const timerData = await setTimer(2000);
-//   console.log(timerData, posData);
-
-//   setTimer(1000).then(() => {
-//     console.log('Timer done!');
-//   });
-//   console.log('Getting position...');
-// }
-
-// function trackUserHandler() {
-//   let positionData;
-//   getPosition()
-//     .then(posData => {
-//       positionData = posData;
-//       return setTimer(2000);
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       return "Here, we go..";
-//     })
-//     .then(data => {
-//       console.log(data, positionData);
-//     })
-//     .catch(err => {
-//       console.log(err);
-//     });
-//   setTimer(1000).then(() => {
-//     console.log('Timer done!');
-//   });
-//   console.log('Getting position...');
-// }
-//   navigator.geolocation.getCurrentPosition(
-//     positionData => {
-//       setTimer(2000).then(data => {
-//         console.log(data, positionData);
-//       });
-//     },
-//     error => {
-//       console.log(error);
-//     }
-//   );
-//   setTimer(1000).then(() => {
-//     console.log('Timer done!');
-//   });
-//   console.log('Getting position');
-// }
-
-button.addEventListener('click', trackUserHandler);
+fetchPosts();
