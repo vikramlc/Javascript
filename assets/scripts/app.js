@@ -12,10 +12,20 @@ function sendHttpRequest(method, url, data) {
     
     xhr.responseType = 'json';
     
+    // Error handling is triggered when there is an error from the API call.
     xhr.onload = function() {
-      resolve(xhr.response);
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve(xhr.response);
+      } else {
+        reject(new Error('Something went wrong!!'));
+      }
       // const listOfPosts = JSON.parse(xhr.response);
       
+    };
+
+    // This is triggered if there is any network error like timeout or no internet
+    xhr.onerror = function() {
+      reject(new Error('Failed to send request.'));
     };
     
     xhr.send(JSON.stringify(data));
@@ -25,7 +35,7 @@ function sendHttpRequest(method, url, data) {
 }
 
 async function fetchPosts() {
-  const responseData = await sendHttpRequest('GET', 'https://jsonplaceholder.typicode.com/posts');
+  const responseData = await sendHttpRequest('GET', 'https://jsonplaceholder.typicode.com/pos');
   const listOfPosts = responseData;
   console.log('data', responseData);
   for (const post of listOfPosts) {
